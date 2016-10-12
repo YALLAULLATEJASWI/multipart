@@ -12,30 +12,36 @@ import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import com.niit.shoppingcart1.DAO.CartDAO;
+import com.niit.shoppingcart1.DAO.CartDAOImpl;
 import com.niit.shoppingcart1.DAO.CategoryDAO;
 import com.niit.shoppingcart1.DAO.CategoryDAOImpl;
 import com.niit.shoppingcart1.DAO.ProductDAO;
 import com.niit.shoppingcart1.DAO.ProductDAOImpl;
 import com.niit.shoppingcart1.DAO.SupplierDAO;
-import com.niit.shoppingcart1.DAO.SupplierDAOImpl;
+import com.niit.shoppingcart1.DAO.SupplierDAOImpl;/*
+import com.niit.shoppingcart1.DAO.UserDAO;
+import com.niit.shoppingcart1.DAO.UserDAOImpl;*/
+import com.niit.shoppingcart1.modal.Cart;
 import com.niit.shoppingcart1.modal.Category;
 import com.niit.shoppingcart1.modal.Product;
 import com.niit.shoppingcart1.modal.Supplier;
+/*import com.niit.shoppingcart1.modal.User;*/
 
 @Configuration
 @ComponentScan("com.niit.shoppingcart1")
 @EnableTransactionManagement
 public class ApplicationContextConfig {
 			
-		@Bean(name = "dataSource")
+		@Bean(name = "datasource")
 		public DataSource getDataSource() {
-			DriverManagerDataSource dataSource = new DriverManagerDataSource();
-			dataSource.setDriverClassName("org.h2.Driver");
-			dataSource.setUrl("jdbc:h2:tcp://localhost/~/test");
-			dataSource.setUsername("sa");
-			dataSource.setPassword("");
+			DriverManagerDataSource datasource = new DriverManagerDataSource();
+			datasource.setDriverClassName("org.h2.Driver");
+			datasource.setUrl("jdbc:h2:tcp://localhost/~/test");
+			datasource.setUsername("sa");
+			datasource.setPassword("");
 			System.out.println("dataSource");
-			return dataSource;
+			return datasource;
 
 		}
 
@@ -43,7 +49,7 @@ public class ApplicationContextConfig {
 			Properties properties = new Properties();
 			properties.put("hibernate.show_sql", "true");
 			properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
-			properties.put("hbm2ddl.auto", "create");
+		//	properties.put("hbm2ddl.auto", "create");
 			properties.put("hbm2ddl.auto", "update");
 			System.out.println("Hibernate Properties");
 			return properties;
@@ -52,12 +58,14 @@ public class ApplicationContextConfig {
 
 		@Autowired
 		@Bean(name = "sessionFactory")
-		public SessionFactory getSessionFactory(DataSource dataSource) {
-			LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(dataSource);
+		public SessionFactory getSessionFactory(DataSource datasource) {
+			LocalSessionFactoryBuilder sessionBuilder = new LocalSessionFactoryBuilder(datasource);
 			sessionBuilder.addProperties(getHibernateProperties());
 			sessionBuilder.addAnnotatedClasses(Category.class);
 			sessionBuilder.addAnnotatedClasses(Product.class);
-		sessionBuilder.addAnnotatedClasses(Supplier.class);
+	     	sessionBuilder.addAnnotatedClasses(Supplier.class);
+	    	sessionBuilder.addAnnotatedClasses(Cart.class);
+	     	/*sessionBuilder.addAnnotatedClasses(User.class);*/
 			System.out.println("Session");
 			
 			return sessionBuilder.buildSessionFactory();
@@ -91,14 +99,14 @@ public class ApplicationContextConfig {
 				return new SupplierDAOImpl(sessionFactory);
 		}
 		/*@Autowired
-		@Bean(name = "userDetailsDAO")
-		public UserDetailsDAO getUserDetailsDAO(SessionFactory sessionFactory) {
-				return new UserDetailsDAOImpl(sessionFactory);
-		}
+		@Bean(name = "userDAO")
+		public UserDAO getUserDetailsDAO(SessionFactory sessionFactory) {
+				return new UserDAOImpl(sessionFactory);
+		}*/
 		@Autowired
 		@Bean(name = "cartDAO")
 		public CartDAO getCartDAO(SessionFactory sessionFactory) {
 				return new CartDAOImpl(sessionFactory);
-		}*/
+		}
 		
 	  }

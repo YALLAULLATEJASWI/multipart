@@ -1,3 +1,4 @@
+
 package com.niit.shoppingcart1.ApplicationContextConfig;
 
 import java.util.Properties;
@@ -19,14 +20,14 @@ import com.niit.shoppingcart1.DAO.CategoryDAOImpl;
 import com.niit.shoppingcart1.DAO.ProductDAO;
 import com.niit.shoppingcart1.DAO.ProductDAOImpl;
 import com.niit.shoppingcart1.DAO.SupplierDAO;
-import com.niit.shoppingcart1.DAO.SupplierDAOImpl;/*
+import com.niit.shoppingcart1.DAO.SupplierDAOImpl;
 import com.niit.shoppingcart1.DAO.UserDAO;
-import com.niit.shoppingcart1.DAO.UserDAOImpl;*/
+import com.niit.shoppingcart1.DAO.UserDAOImpl;
 import com.niit.shoppingcart1.modal.Cart;
 import com.niit.shoppingcart1.modal.Category;
 import com.niit.shoppingcart1.modal.Product;
 import com.niit.shoppingcart1.modal.Supplier;
-/*import com.niit.shoppingcart1.modal.User;*/
+import com.niit.shoppingcart1.modal.User;
 
 @Configuration
 @ComponentScan("com.niit.shoppingcart1")
@@ -65,7 +66,7 @@ public class ApplicationContextConfig {
 			sessionBuilder.addAnnotatedClasses(Product.class);
 	     	sessionBuilder.addAnnotatedClasses(Supplier.class);
 	    	sessionBuilder.addAnnotatedClasses(Cart.class);
-	     	/*sessionBuilder.addAnnotatedClasses(User.class);*/
+	     	sessionBuilder.addAnnotatedClasses(User.class);
 			System.out.println("Session");
 			
 			return sessionBuilder.buildSessionFactory();
@@ -98,12 +99,12 @@ public class ApplicationContextConfig {
 		public SupplierDAO getSupplierDao(SessionFactory sessionFactory) {
 				return new SupplierDAOImpl(sessionFactory);
 		}
-		/*@Autowired
+		@Autowired
 		@Bean(name = "userDAO")
 		public UserDAO getUserDetailsDAO(SessionFactory sessionFactory) {
 				return new UserDAOImpl(sessionFactory);
-		}*/
-		@Autowired
+		}
+	@Autowired
 		@Bean(name = "cartDAO")
 		public CartDAO getCartDAO(SessionFactory sessionFactory) {
 				return new CartDAOImpl(sessionFactory);

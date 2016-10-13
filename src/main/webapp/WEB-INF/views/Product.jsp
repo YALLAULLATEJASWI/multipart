@@ -66,6 +66,27 @@ body {
 	opacity: 0.8;
 }
 </style>
+<script
+	src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.17/angular.min.js"></script>
+<script>
+	var app = angular.module('myApp', []);
+	function MyController($scope, $http) {
+		$scope.sortType = 'name'; // set the default sort type
+		$scope.sortReverse = false; // set the default sort order
+		$scope.search = '';
+		$scope.getDataFromServer = function() {
+			$http({
+				method : 'GET',
+				url : 'productgson'
+			}).success(function(data, status, headers, config) {
+				$scope.products = data;// alert(data); 
+			}).error(function(data, status, headers, config) {
+			});
+		};
+	};
+</script>
+	
+
 
 </head>
 
@@ -76,14 +97,14 @@ body {
 				<a class="navbar-brand" href="#">MUSIC HUB</a>
 			</div>
 			<ul class="nav navbar-nav nv-tabs" style="margin-left: 350px;">
-				<li class="active"><a href="Admin">Home</a></li>
+				<li class="active"><a href="Home">Home</a></li>
 				<li><a href="Supplier">Supplier</a></li>
 				<li><a href="Product">Product</a></li>
 				<li><a href="Category">Category</a></li>
 			</ul>
 		</div>
 	</nav>
-	<c:url var="addAction" value="addProduct"></c:url>
+		<c:url var="addAction" value="addProduct"></c:url>
 
 <form:form action="${addAction}" modelAttribute="product" id="btn-add" enctype="multipart/form-data" method="post">
 		<div class="TableMargin">
@@ -159,6 +180,15 @@ body {
 				<br>
 				<td><input type="submit" class="btn btn-primary" value="Save" /></td>
 		</div>
+		 <div class="container" data-ng-app="myApp"
+				data-ng-controller="MyController" data-ng-init="getDataFromServer()"
+				style="overflow: auto; height: 400px; width: 70%">
+				<form>
+					<input
+						data-ng-model="search" type="text" placeholder=" Search Category"
+						style="width: 20%">
+				</form>
+		
 		<br>
 		<div class="container">
 		<table class="table table-striped custab">
@@ -172,25 +202,29 @@ body {
 				<th>SUPPLIER</th>
 <th>IMAGE</th>
 
-				<th colspan="2" >Action</th>
-			</tr>
-			<c:forEach var="obj" items="${allproduct}">
-				<tr>
-					<td><c:out value="${obj.id}" /></td>
-					<td><c:out value="${obj.name}" /></td>
-					<td><c:out value="${obj.description}" /></td>
-					<td><c:out value="${obj.price}" /></td>
 
-					<td><c:out value="${obj.category_id}" /></td>
-					<td><c:out value="${obj.supplier_id}" /></td>
+				<th colspan="2" >Action</th>
+					<tr data-ng-repeat="product in products | orderBy:sortType:sortReverse | filter:search"> 
+			<%-- </tr>
+			 <c:forEach var="obj" items="${allproduct}"> 
+				<tr> --%>
+					<td>{{product.id}}</td>
+					<td>{{product.name}}</td>
+					<td>{{product.description}}</td>
+					<td>{{product.price}}</td>
+
+					<td>{{product.category_id}}</td>
+					<td>{{product.supplier_id}}</td>
 					<td><div class="thumbnail">
-<img height="50px" width="50px" alt="${obj.id}" src="<c:url value="/resources/images/product/${obj.id}.jpg"></c:url>">
+<img height="50px" width="50px" alt="{{product.id}}" src="<c:url value="/resources/images/product/{{product.id}}.jpg"></c:url>">
 						</div>
-					<td><a class="btn btn-danger btn-xs" href="deleteproduct/${obj.id}"></span>Delete </a> | <a
-						class="btn btn-info btn-xs" href="ItemByproduct/${obj.id}">Edit</a></td>
+					<td><a class="btn btn-danger btn-xs" href="deleteproduct/{{product.id}}"></span>Delete </a> | <a
+						class="btn btn-info btn-xs" href="ItemByproduct/{{product.id}}">Edit</a></td>
 				</tr>
-			</c:forEach>
+				
+			<%-- </c:forEach> --%>
 		</table>
+		</div>
 		</div>
 	</form:form>
 </body>

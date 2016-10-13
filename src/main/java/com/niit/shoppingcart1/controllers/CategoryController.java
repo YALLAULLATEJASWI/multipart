@@ -1,5 +1,7 @@
 package com.niit.shoppingcart1.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,9 +10,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.niit.shoppingcart1.DAO.CategoryDAO;
 import com.niit.shoppingcart1.modal.Category;
 
@@ -20,12 +24,22 @@ public class CategoryController {
 	@Autowired
 	CategoryDAO categoryDAO;
 	
+	
+	@RequestMapping(value = "/categorygson" )
+	@ResponseBody
+	public String CategoryGson() {
+		List<Category> list = categoryDAO.list();
+		Gson gson = new Gson();
+		String data = gson.toJson(list);
+		return data;
+	}
+	
 	@RequestMapping(value="/Category",method = RequestMethod.GET)
 	public ModelAndView landPage(@ModelAttribute("category")Category category,BindingResult result,Model model)
 	{
-		ModelAndView mv=new ModelAndView("/admin");
+		ModelAndView mv=new ModelAndView("/Category");
 		mv.addObject("userclickedcategory", "true");
-		mv.addObject("allData",categoryDAO.list());
+		mv.addObject("allcategory",categoryDAO.list());
 		return mv;
 		
 	}

@@ -23,7 +23,7 @@
 <h1><c:out value="${product.name }"/></h1>
 <div class="thumbnail">
 <img height="300px" width="300px" alt="${product.id }"
-				src="<c:url value="/resources/images/${product.id }.jpg"></c:url>">
+				src="<c:url value="/resources/images/product/${product.id }.jpg"></c:url>">
 		</div>
 		<div align="right">
 		<c:out value="${product.description}"/><br>

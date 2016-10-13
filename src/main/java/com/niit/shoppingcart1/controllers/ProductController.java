@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,14 +18,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.niit.shoppingcart1.DAO.CategoryDAO;
 import com.niit.shoppingcart1.DAO.ProductDAO;
 import com.niit.shoppingcart1.DAO.SupplierDAO;
 import com.niit.shoppingcart1.modal.Product;
+import com.niit.shoppingcart1.modal.Supplier;
 
 @Controller
 public class ProductController {
@@ -40,6 +44,14 @@ public class ProductController {
 		private SupplierDAO supplierDAO;
 		
 		private Path path;
+		@RequestMapping(value = "/productgson" )
+		@ResponseBody
+		public String ProductGson() {
+			List<Product> list = productDAO.list();
+			Gson gson = new Gson();
+			String data = gson.toJson(list);
+			return data;
+		}
 		
 		@RequestMapping(value="/Product",method = RequestMethod.GET)
 		public ModelAndView productlandPage(@ModelAttribute("product")Product product,BindingResult result,Model model)

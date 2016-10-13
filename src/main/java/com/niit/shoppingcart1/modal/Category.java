@@ -1,5 +1,6 @@
 package com.niit.shoppingcart1.modal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 public class Category {
 	
 	@Id
+	@Column(name="id")
 	@GeneratedValue
 	private int id;
 	private String name;
@@ -33,9 +35,6 @@ public class Category {
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	
-	
-	
+	}	
 	
 }

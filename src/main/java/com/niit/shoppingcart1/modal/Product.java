@@ -96,6 +96,7 @@ public MultipartFile getImage() {
 
 public void setImage(MultipartFile image) {
 	this.image = image;
+
 }
 
 }

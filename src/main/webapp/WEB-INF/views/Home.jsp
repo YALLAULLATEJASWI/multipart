@@ -122,25 +122,19 @@ article {
 						</a>
 			</div>
 		</div>
-		<c:choose>
-	<c:when test="${UserClickedCart}">
-	<c:import url="/WEB-INF/view/Cart.jsp"></c:import>
-	</c:when>
-</c:choose>
 		<c:forEach items="${allproduct}" var="product">
   
   <!-- <div class="row"> -->
      <div class="col-xs-3"> 
        
-      <a href="ShowProduct/${product.id}"  class="thumbnail"> <img height="200px"
-       width="200px" alt="${product.id }"
-       src="<c:url value="/resources/images/product/${product.id }.jpg"></c:url>"></a>
+      <a href="ShowProduct/${product.id}"  class="thumbnail"> <img height="200px" width="200px" alt="${product.id }"
+       src="<c:url value="/resources/images/product/${product.id}.jpg"></c:url>"></a>
       <div class="desc">
          	<c:out value="${product.id}" />
          	<c:out value="${product.name }"></c:out>
          	<c:out value="${product.price }$"></c:out>
-			<c:url var="action" value="addtocart/${product.id}"></c:url>
-			<form:form action="${action}" commandName="cart">
+			<c:url var="Addaction" value="addtocart/${product.id}"></c:url>
+			<form:form action="${Addaction}" commandName="cart">
 			<input type="submit" class="btn btn-primary" value="Add To Cart" />
 			
 			</form:form>
@@ -150,6 +144,11 @@ article {
 			
 			<!-- </div>  -->
 			</c:forEach>
+				<c:choose>
+	<c:when test="${UserClickedCart}">
+	<c:import url="/WEB-INF/views/Cart1.jsp"></c:import>
+	</c:when>
+</c:choose>
 		
 				<!-- Footer -->
 				<footer class="container-fluid" style="margin:0px 15px 0px 15px">

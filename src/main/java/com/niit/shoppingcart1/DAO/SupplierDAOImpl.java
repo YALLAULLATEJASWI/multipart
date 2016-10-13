@@ -7,11 +7,14 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.niit.shoppingcart1.modal.Supplier;
 
 @Repository
 public class SupplierDAOImpl implements SupplierDAO{
+	private static final Logger logger = LoggerFactory.getLogger(Supplier.class);
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -24,7 +27,11 @@ public class SupplierDAOImpl implements SupplierDAO{
 	@Transactional
 	public boolean saveOrUpdate(Supplier supplier){
 		try {
+			logger.debug("session started");
 			sessionFactory.getCurrentSession().saveOrUpdate(supplier);
+			logger.debug("supplier has been saved:"+supplier.getId());
+			
+			
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

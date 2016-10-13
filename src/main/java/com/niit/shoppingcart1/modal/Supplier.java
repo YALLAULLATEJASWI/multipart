@@ -1,5 +1,6 @@
 package com.niit.shoppingcart1.modal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -12,11 +13,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class Supplier {
 	@Id
+	@Column(name="id")
 	@GeneratedValue
+	
 	private int id;
 	private String name;
 	private String address;
-	
 	public int getId() {
 		return id;
 	}
@@ -35,8 +37,4 @@ public class Supplier {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	
-	
-	
-
-}
+	}
